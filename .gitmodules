@@ -1,0 +1,6 @@
+[submodule "kbd_firmware"]
+	path = kbd_firmware
+	url = https://github.com/foostan/kbd_firmware.git
+[submodule "vial-qmk"]
+	path = vial-qmk
+	url = https://github.com/vial-kb/vial-qmk.git
