@@ -7,3 +7,5 @@ git submodule update --init --depth 1 -- kbd_firmware # kbd_firmware has qmk and
 
 qmk config user.qmk_home="$(realpath vial-qmk)"
 qmk config user.overlay_dir="$(realpath .)"
+
+qmk compile --compiledb -kb crkbd/rev4_1/standard -km mazharenko
