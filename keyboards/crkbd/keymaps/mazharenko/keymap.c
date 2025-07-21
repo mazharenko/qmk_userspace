@@ -1,7 +1,56 @@
-#include "keycodes.h"
-#include "keymap_us.h"
 #include QMK_KEYBOARD_H
 
+enum uni_keycodes {
+    UNI_LBRC = RALT(S(KC_LBRC)), // [
+    UNI_RBRC = RALT(S(KC_RBRC)), // ]
+    UNI_LCUR = RALT(KC_LBRC), // {
+    UNI_RCUR = RALT(KC_RBRC), // }
+    UNI_EXLM = KC_1, // !
+    UNI_PERCENT = KC_5, // %
+    UNI_QUES = KC_7, // ?
+    UNI_ASTR = KC_8, // *
+    UNI_COLON = KC_4, // ;
+    UNI_SEMICOLON = KC_6, // :,
+    UNI_LPAREN = KC_9, // (
+    UNI_RPAREN = KC_0, // )
+    UNI_HASH = KC_3, //
+};
+
+enum {
+    TD_SLASHES,
+    TD_SEMI_COLON,
+    HASHROCKET
+};
+
+void dance_slashes(tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        tap_code16(S(KC_BACKSLASH));
+    } else if (state->count == 2) {
+        tap_code16(S(KC_SEMICOLON));
+    } else if (state->count == 3) {
+        tap_code16(S(KC_QUOT));
+    } else {
+        reset_tap_dance (state);
+    }
+};
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_SLASHES] = ACTION_TAP_DANCE_FN(dance_slashes),
+    [TD_SEMI_COLON] = ACTION_TAP_DANCE_DOUBLE(UNI_SEMICOLON, UNI_COLON)
+};
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case HASHROCKET:
+            if (record->event.pressed) {
+                SEND_STRING("=>");
+            }
+            return false;
+    }
+
+    return true;
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3_ex2(
@@ -18,17 +67,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [1] = LAYOUT_split_3x6_3_ex2(
-  //,----------------------------------------------------------------------.  ,-----------------------------------------------------------------------.
-         XXXXXXX,  KC_P7, KC_P8, KC_P9,       XXXXXXX,   KC_KP_MINUS , XXXXXXX,       KC_RCTL,    KC_6,          KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
-  //|------------+------+------+------+--------------+--------+------------|  |-----------+--------+--------------+--------+--------+--------+--------|
-      KC_KP_PLUS,  KC_P4, KC_P5, KC_P6,       XXXXXXX, XXXXXXX,     XXXXXXX,       KC_RALT, KC_LEFT,       KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
-  //|------------+------+------+------+--------------+--------+------------'  `-----------+--------+--------------+--------+--------+--------+--------|
-      KC_KP_EQUAL, KC_P1, KC_P2, KC_P3,         KC_P0, XXXXXXX,                    XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|------------+------+------+------+--------------+--------+------------.  ,-----------+--------+--------------+--------+--------+--------+--------|
-                                        LT(3, KC_TAB), _______,     _______,       _______, _______, LT(3, KC_DEL)
-                                      //`----------------------------------'  `-----------------------------------'
+  //,------------------------------------------------------------------------.  ,------------------------------------------------------------------------------------------.
+         XXXXXXX,  KC_P7, KC_P8, KC_P9,       XXXXXXX,   KC_KP_MINUS, XXXXXXX,    XXXXXXX,      TD(TD_SLASHES),      UNI_LCUR,   UNI_RCUR,   UNI_EXLM, UNI_PERCENT, XXXXXXX,
+  //|------------+------+------+------+--------------+--------------+--------|  |-----------+-----------------+--------------+-----------+-----------+------------+--------|
+      KC_KP_PLUS,  KC_P4, KC_P5, KC_P6,       XXXXXXX,       XXXXXXX, XXXXXXX,    XXXXXXX,               KC_2,       UNI_LBRC,   UNI_RBRC,   UNI_QUES,    UNI_ASTR, XXXXXXX,
+  //|------------+------+------+------+--------------+--------------+--------'  `-----------+-----------------+--------------+-----------+-----------+------------+--------|
+      KC_KP_EQUAL, KC_P1, KC_P2, KC_P3,         KC_P0,       XXXXXXX,                        TD(TD_SEMI_COLON),    UNI_LPAREN, UNI_RPAREN, HASHROCKET,    UNI_HASH, XXXXXXX,
+  //|------------+------+------+------+--------------+--------------+--------.  ,-----------+-----------------+--------------+-----------+-----------+------------+--------|
+                                        LT(3, KC_TAB),       _______, _______,       _______,          _______, LT(3, KC_DEL)
+                                     //`-------------------------------------'  `--------------------------------------------'
   ),
-  
+
   [2] = LAYOUT_split_3x6_3_ex2(
   //,-------------------------------------------------------------------------.  ,---------------------------------------------------------------------------.
         KC_TAB,  KC_EXLM,    KC_AT,  KC_HASH,   KC_DLR,  KC_PERC,     KC_LCTL,          KC_RCTL,  KC_CIRC,   KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RPRN,  KC_BSPC,
