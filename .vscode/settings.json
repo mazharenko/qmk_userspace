@@ -3,5 +3,6 @@
         ".git/": true,
         "qmk_firmware": true,
         "kbd_firmware/": true
-    }
+    },
+    "clangd.onConfigChanged": "restart"
 }
