@@ -1,4 +1,4 @@
-#include "keycodes.h"
+#include "color.h"
 #include QMK_KEYBOARD_H
 
 enum uni_keycodes {
@@ -173,22 +173,53 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
   [3] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
 };
 
-void keyboard_post_init_user(void) {
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv_noeeprom(HSV_AZURE);
-}
+
+const rgb_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT_split_3x6_3_ex2_rgb(
+  //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
+       {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
+      {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
+       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
+                                          {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
+                                      //`---------------------------------------'  `---------------------------------------------'
+  ),
+  [1] = LAYOUT_split_3x6_3_ex2_rgb(
+  //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
+       {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
+      {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
+       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
+                                          {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
+                                      //`---------------------------------------'  `---------------------------------------------'
+  ),
+  [2] = LAYOUT_split_3x6_3_ex2_rgb(
+  //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
+       {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
+      {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
+       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
+  //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
+                                          {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
+                                      //`---------------------------------------'  `---------------------------------------------'
+  ),
+};
+
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    for (uint8_t i = led_min; i < led_max; i++) {
-        switch(get_highest_layer(layer_state|default_layer_state)) {
-            case 2:
-                rgb_matrix_set_color(i, RGB_BLUE);
-                break;
-            case 1:
-                rgb_matrix_set_color(i, RGB_YELLOW);
-                break;
-            default:
-                break;
+    uint8_t layer = get_highest_layer(layer_state);
+
+    for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+        for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+            uint8_t index = g_led_config.matrix_co[row][col];
+            rgb_t rgb = matrix_colors[layer][row][col];
+            rgb_matrix_set_color(index, rgb.r, rgb.g, rgb.b);
+
         }
     }
     return false;
