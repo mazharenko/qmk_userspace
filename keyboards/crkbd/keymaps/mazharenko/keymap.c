@@ -1,4 +1,6 @@
 #include "color.h"
+#include "keycode.h"
+#include "keycodes.h"
 #include QMK_KEYBOARD_H
 
 enum uni_keycodes {
@@ -17,6 +19,7 @@ enum uni_keycodes {
     UNI_HASH = KC_3, // #
     UNI_AT = KC_2, // @
 };
+
 
 enum hrm_keycodes {
     SMTD_KEYCODES_BEGIN = SAFE_RANGE,
@@ -98,6 +101,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
       //  SMTD_MT(HOME_A, KC_A, KC_LEFT_CTRL)
@@ -174,10 +178,23 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 
 
+#define LAYOUT_split_3x6_3_ex2_rgb(k0A, k0B, k0C, k0D, k0E, k0F, k0G, k4G, k4F, k4E, k4D, k4C, k4B, k4A, k1A, k1B, k1C, k1D, k1E, k1F, k1G, k5G, k5F, k5E, k5D, k5C, k5B, k5A, k2A, k2B, k2C, k2D, k2E, k2F, k6F, k6E, k6D, k6C, k6B, k6A, k3D, k3E, k3F, k7F, k7E, k7D) { \
+    { k0A, k0B, k0C, k0D, k0E, k0F, k0G }, \
+    { k1A, k1B, k1C, k1D, k1E, k1F, k1G }, \
+    { k2A, k2B, k2C, k2D, k2E, k2F, (struct rgb_t){RGB_OFF} }, \
+    { (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, k3D, k3E, k3F, (struct rgb_t){RGB_OFF} }, \
+    { k4A, k4B, k4C, k4D, k4E, k4F, k4G }, \
+    { k5A, k5B, k5C, k5D, k5E, k5F, k5G }, \
+    { k6A, k6B, k6C, k6D, k6E, k6F, (struct rgb_t){RGB_OFF} }, \
+    { (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, k7D, k7E, k7F, (struct rgb_t){RGB_OFF} } \
+}
+
+
+
 const rgb_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3_ex2_rgb(
   //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
-       {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+       {RGB_BLUE},    {RGB_BLUE},  {RGB_CORAL},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
   //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
       {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
   //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
@@ -192,14 +209,14 @@ const rgb_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
       {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
   //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
-       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
+       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_CORAL},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
   //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
                                           {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
                                       //`---------------------------------------'  `---------------------------------------------'
   ),
   [2] = LAYOUT_split_3x6_3_ex2_rgb(
   //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
-       {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+       {RGB_BLUE},    {RGB_CORAL},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
   //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
       {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
   //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|

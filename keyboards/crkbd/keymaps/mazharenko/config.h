@@ -1,7 +1,5 @@
 #pragma once
 
-#include "color.h"
-
 #define VIAL_KEYBOARD_UID {0x89, 0x36, 0x2A, 0xC7, 0xFA, 0xD8, 0x89, 0x45}
 #define VIAL_UNLOCK_COMBO_ROWS {0, 0}
 #define VIAL_UNLOCK_COMBO_COLS {0, 1}
@@ -12,17 +10,7 @@
 
 
 
-
-#define LAYOUT_split_3x6_3_ex2_rgb(k0A, k0B, k0C, k0D, k0E, k0F, k0G, k4G, k4F, k4E, k4D, k4C, k4B, k4A, k1A, k1B, k1C, k1D, k1E, k1F, k1G, k5G, k5F, k5E, k5D, k5C, k5B, k5A, k2A, k2B, k2C, k2D, k2E, k2F, k6F, k6E, k6D, k6C, k6B, k6A, k3D, k3E, k3F, k7F, k7E, k7D) { \
-    { k0A, k0B, k0C, k0D, k0E, k0F, k0G }, \
-    { k1A, k1B, k1C, k1D, k1E, k1F, k1G }, \
-    { k2A, k2B, k2C, k2D, k2E, k2F, (struct rgb_t){RGB_OFF} }, \
-    { (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, k3D, k3E, k3F, (struct rgb_t){RGB_OFF} }, \
-    { k4A, k4B, k4C, k4D, k4E, k4F, k4G }, \
-    { k5A, k5B, k5C, k5D, k5E, k5F, k5G }, \
-    { k6A, k6B, k6C, k6D, k6E, k6F, (struct rgb_t){RGB_OFF} }, \
-    { (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, k7D, k7E, k7F, (struct rgb_t){RGB_OFF} } \
-}
+/**/
 /*
 #define LAYOUT_split_3x6_3_ex2_rgb(k0A_r, k0A_g, k0A_b, \
  k0B_r, k0B_g, k0B_b, \
