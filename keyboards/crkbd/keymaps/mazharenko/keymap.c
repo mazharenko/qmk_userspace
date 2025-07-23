@@ -20,14 +20,14 @@ enum uni_keycodes {
 
 enum hrm_keycodes {
     SMTD_KEYCODES_BEGIN = SAFE_RANGE,
-    HOME_A1,
-    HOME_S1,
-    HOME_D1,
-    HOME_F1,
-    HOME_J1,
-    HOME_K1,
-    HOME_L1,
-    HOME_SCLN1,
+  //  HOME_A,
+  //  HOME_S,
+  //  HOME_D,
+  //  HOME_F,
+  //  HOME_J,
+  //  HOME_K,
+  //  HOME_L,
+  //  HOME_SCLN,
     SMTD_KEYCODES_END,
 };
 
@@ -100,14 +100,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
-        SMTD_MT(HOME_A1, KC_A, KC_LEFT_CTRL)
-        SMTD_MT(HOME_S1, KC_S, KC_LEFT_ALT)
-        SMTD_MT(HOME_D1, KC_D, KC_LEFT_GUI)
-        SMTD_MT(HOME_F1, KC_F, KC_LSFT)
-        SMTD_MT(HOME_J1, KC_J, KC_LSFT)
-        SMTD_MT(HOME_K1, KC_K, KC_LEFT_GUI)
-        SMTD_MT(HOME_L1, KC_L, KC_LEFT_ALT)
-        SMTD_MT(HOME_SCLN1, KC_SCLN, KC_LEFT_CTRL)
+      //  SMTD_MT(HOME_A, KC_A, KC_LEFT_CTRL)
+      //  SMTD_MT(HOME_S, KC_S, KC_LEFT_ALT)
+      //  SMTD_MT(HOME_D, KC_D, KC_LEFT_GUI)
+      //  SMTD_MT(HOME_F, KC_F, KC_LSFT)
+      //  SMTD_MT(HOME_J, KC_J, KC_LSFT)
+      //  SMTD_MT(HOME_K, KC_K, KC_LEFT_GUI)
+      //  SMTD_MT(HOME_L, KC_L, KC_LEFT_ALT)
+      //  SMTD_MT(HOME_SCLN, KC_SCLN, KC_LEFT_CTRL)
     }
 }
 
@@ -121,32 +121,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_F13,    KC_Z,    KC_X,    KC_C,          KC_V,    KC_B,                                             KC_N,          KC_M, KC_COMM,  KC_DOT,   KC_SLSH,  KC_F14,
   //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
                                           LT(2, KC_TAB),  KC_SPC,  LT(1, KC_ENT),     LT(1, KC_BACKSPACE),  KC_SPC, LT(2, KC_DEL)
-                                      //`--------------------------'  `--------------------------'
+                                      //`---------------------------------------'  `---------------------------------------------'
 
   ),
 
+
   [1] = LAYOUT_split_3x6_3_ex2(
-  //,--------------------------------------------------------------------------.  ,--------------------------------------------------------------------------------------------.
-         XXXXXXX,  KC_P7, RALT_T(KC_P8), KC_P9,         XXXXXXX,   KC_MINUS, XXXXXXX,    XXXXXXX,      TD(TD_SLASHES),         UNI_LCUR,   UNI_RCUR,   RALT_T(UNI_EXLM), UNI_PERCENT, XXXXXXX,
-  //|------------+------+--------------+------+----------------+--------------+--------|  |-----------+-----------------+-----------------+-----------+-----------+------------+--------|
-      KC_KP_PLUS,  KC_P4,         KC_P5, KC_P6, LSFT_T(XXXXXXX),       TD(TD_QUOTES), XXXXXXX,    XXXXXXX,              UNI_AT, UNI_LBRC,   UNI_RBRC,   UNI_QUES,    UNI_ASTR, XXXXXXX,
-  //|------------+------+--------------+------+----------------+--------------+--------'  `-----------+-----------------+-----------------+-----------+-----------+------------+--------|
-      KC_KP_EQUAL, KC_P1,         KC_P2, KC_P3,           KC_P0,       XXXXXXX,                        TD(TD_SEMI_COLON),       UNI_LPAREN, UNI_RPAREN, HASHROCKET,    UNI_HASH, XXXXXXX,
-  //|------------+------+--------------+------+----------------+--------------+--------.  ,-----------+-----------------+-----------------+-----------+-----------+------------+--------|
-                                        LT(3, KC_TAB),       _______, _______,       _______,          _______, LT(3, KC_DEL)
-                                     //`-------------------------------------'  `--------------------------------------------'
+  //,-----------------------------------------------------------------------------------------.  ,--------------------------------------------------------------------------------------------------.
+         XXXXXXX,  KC_P7, RALT_T(KC_P8),        KC_P9,         XXXXXXX,      KC_MINUS, XXXXXXX,    XXXXXXX,     TD(TD_SLASHES),         UNI_LCUR,   UNI_RCUR, RALT_T(UNI_EXLM), UNI_PERCENT, XXXXXXX,
+  //|------------+------+--------------+-------------+----------------+--------------+--------|  |---------+------------------+-----------------+-----------+-----------------+------------+--------|
+      KC_KP_PLUS,  KC_P4,         KC_P5,        KC_P6, LSFT_T(XXXXXXX), TD(TD_QUOTES), XXXXXXX,    XXXXXXX,             UNI_AT, LSFT_T(UNI_LBRC),   UNI_RBRC,         UNI_QUES,    UNI_ASTR, XXXXXXX,
+  //|------------+------+--------------+-------------+----------------+--------------+--------'  `---------+------------------+-----------------+-----------+-----------------+------------+--------|
+      KC_KP_EQUAL, KC_P1,         KC_P2,        KC_P3,           KC_P0,       XXXXXXX,                       TD(TD_SEMI_COLON),       UNI_LPAREN, UNI_RPAREN,       HASHROCKET,    UNI_HASH, XXXXXXX,
+  //|------------+------+--------------+-------------+----------------+--------------+--------.  ,---------+------------------+-----------------+-----------+-----------------+------------+--------|
+                                                         LT(3, KC_TAB),       _______, _______,     _______,           _______,    LT(3, KC_DEL)
+                                                   //`----------------------------------------'  `----------------------------------------------'
   ),
 
   [2] = LAYOUT_split_3x6_3_ex2(
-  //,-------------------------------------------------------------------------.  ,---------------------------------------------------------------------------.
-        KC_TAB,  KC_F7,    KC_F8,  KC_F9,   KC_F10,  XXXXXXX,     XXXXXXX,          XXXXXXX,  XXXXXXX,   KC_HOME,  KC_PAGE_UP,  XXXXXXX,  XXXXXXX,  KC_BSPC,
-  //|-----------+---------+---------+---------+----------+---------+-----------|  |------------+---------+----------+---------+---------+---------+---------|
-       KC_LCTL,  KC_F4,  KC_F5,  KC_F6,  KC_F11,  XXXXXXX,     XXXXXXX,          XXXXXXX,  KC_LEFT,    KC_DOWN,  KC_UP,  KC_RIGHT,  KC_INSERT,   XXXXXXX,
-  //|-----------+---------+---------+---------+----------+---------+-----------'  `------------+---------+----------+---------+---------+---------+---------|
-       KC_LSFT,  KC_F1,  KC_F2,  KC_F3,  KC_F12,  XXXXXXX,                                  XXXXXXX,  KC_END,   KC_PAGE_DOWN,  XXXXXXX,  XXXXXXX,  XXXXXXX,
-  //|-----------+---------+---------+---------+----------+---------+-----------.  ,------------+---------+----------+---------+---------+---------+---------|
-                                        _______,    _______,    LT(3, KC_ENT),        LT(3, KC_ENT),    _______,   _______
-                                     //`----------------------------'  `----------------------------'
+  //,-----------------------------------------------------------------.  ,-------------------------------------------------------------------------------.
+       KC_TAB,  KC_F7,  KC_F8,  KC_F9, KC_F10,  XXXXXXX,       XXXXXXX,          XXXXXXX,  XXXXXXX, KC_HOME,   KC_PAGE_UP,   XXXXXXX,   XXXXXXX,  KC_BSPC,
+  //|--------+-------+-------+-------+-------+---------+--------------|  |--------------+---------+--------+-------------+----------+----------+---------|
+      KC_LCTL,  KC_F4,  KC_F5,  KC_F6, KC_F11,  XXXXXXX,       XXXXXXX,          XXXXXXX,  KC_LEFT, KC_DOWN,        KC_UP,  KC_RIGHT, KC_INSERT,  XXXXXXX,
+  //|--------+-------+-------+-------+-------+---------+--------------'  `--------------+---------+--------+-------------+----------+----------+---------|
+      KC_LSFT,  KC_F1,  KC_F2,  KC_F3, KC_F12,  XXXXXXX,                                   XXXXXXX,  KC_END, KC_PAGE_DOWN,   XXXXXXX,   XXXXXXX,  XXXXXXX,
+  //|--------+-------+-------+-------+-------+---------+--------------.  ,--------------+---------+--------+-------------+----------+----------+---------|
+                                      _______,  _______, LT(3, KC_ENT),    LT(3, KC_ENT),  _______, _______
+                                   //`--------------------------------'  `---------------------------------'
   ),
 
 
@@ -163,11 +164,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+#define ENCODER_NONE { XXXXXXX, XXXXXXX }
+
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-  [0] = { ENCODER_CCW_CW(RGB_MOD, RGB_RMOD), ENCODER_CCW_CW(RGB_HUI, RGB_HUD), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), },
-  [1] = { ENCODER_CCW_CW(RGB_MOD, RGB_RMOD), ENCODER_CCW_CW(RGB_HUI, RGB_HUD), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), },
-  [2] = { ENCODER_CCW_CW(RGB_MOD, RGB_RMOD), ENCODER_CCW_CW(RGB_HUI, RGB_HUD), ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), },
-  [3] = { ENCODER_CCW_CW(RGB_MOD, RGB_RMOD), ENCODER_CCW_CW(RGB_HUI, RGB_HUD), ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(RGB_SAI, RGB_SAD), },
+  [0] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
+  [1] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
+  [2] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_NONE, },
+  [3] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
 };
 
 void keyboard_post_init_user(void) {
