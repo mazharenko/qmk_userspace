@@ -1,6 +1,10 @@
+#include <stdint.h>
 #include "color.h"
 #include "keycode.h"
 #include "keycodes.h"
+#include "quantum_keycodes_legacy.h"
+#include "rgb_matrix_types.h"
+#include "rp2040.h"
 #include QMK_KEYBOARD_H
 
 enum uni_keycodes {
@@ -52,7 +56,9 @@ enum {
     TD_SLASHES,
     TD_SEMI_COLON,
     HASHROCKET,
-    TD_QUOTES
+    TD_QUOTES,
+    RGB_VAD_NOEEPROM,
+    RGB_VAI_NOEEPROM
 };
 
 void dance_slashes(tap_dance_state_t *state, void *user_data) {
@@ -95,6 +101,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 SEND_STRING("=>");
             }
+            return false;
+        case RGB_VAI_NOEEPROM:
+            rgb_matrix_increase_hue_noeeprom();
+            return false;
+        case RGB_VAD_NOEEPROM:
+            rgb_matrix_decrease_hue_noeeprom();
             return false;
     }
 
@@ -159,9 +171,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,--------------------------------------------------------------.  ,--------------------------------------------------------------.
       QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      RGB_TOG, RGB_HUI, RGB_SAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------'  `--------+--------+--------+--------+--------+--------+--------|
-      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      RGB_MOD, RGB_HUD, RGB_SAD, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------.  ,--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RGUI
                                       //`--------------------------'  `--------------------------'
@@ -174,59 +186,79 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
   [0] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
   [1] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
   [2] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_NONE, },
-  [3] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
+  [3] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(RGB_VAD_NOEEPROM, RGB_VAI_NOEEPROM), ENCODER_NONE, },
 };
 
 
-#define LAYOUT_split_3x6_3_ex2_rgb(k0A, k0B, k0C, k0D, k0E, k0F, k0G, k4G, k4F, k4E, k4D, k4C, k4B, k4A, k1A, k1B, k1C, k1D, k1E, k1F, k1G, k5G, k5F, k5E, k5D, k5C, k5B, k5A, k2A, k2B, k2C, k2D, k2E, k2F, k6F, k6E, k6D, k6C, k6B, k6A, k3D, k3E, k3F, k7F, k7E, k7D) { \
+#define LAYOUT_split_3x6_3_ex2_hsv(k0A, k0B, k0C, k0D, k0E, k0F, k0G, k4G, k4F, k4E, k4D, k4C, k4B, k4A, k1A, k1B, k1C, k1D, k1E, k1F, k1G, k5G, k5F, k5E, k5D, k5C, k5B, k5A, k2A, k2B, k2C, k2D, k2E, k2F, k6F, k6E, k6D, k6C, k6B, k6A, k3D, k3E, k3F, k7F, k7E, k7D) { \
     { k0A, k0B, k0C, k0D, k0E, k0F, k0G }, \
     { k1A, k1B, k1C, k1D, k1E, k1F, k1G }, \
-    { k2A, k2B, k2C, k2D, k2E, k2F, (struct rgb_t){RGB_OFF} }, \
-    { (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, k3D, k3E, k3F, (struct rgb_t){RGB_OFF} }, \
+    { k2A, k2B, k2C, k2D, k2E, k2F, (struct hsv_t){HSV_OFF} }, \
+    { (struct hsv_t){HSV_OFF}, (struct hsv_t){HSV_OFF}, (struct hsv_t){HSV_OFF}, k3D, k3E, k3F, (struct hsv_t){HSV_OFF} }, \
     { k4A, k4B, k4C, k4D, k4E, k4F, k4G }, \
     { k5A, k5B, k5C, k5D, k5E, k5F, k5G }, \
-    { k6A, k6B, k6C, k6D, k6E, k6F, (struct rgb_t){RGB_OFF} }, \
-    { (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, (struct rgb_t){RGB_OFF}, k7D, k7E, k7F, (struct rgb_t){RGB_OFF} } \
+    { k6A, k6B, k6C, k6D, k6E, k6F, (struct hsv_t){HSV_OFF} }, \
+    { (struct hsv_t){HSV_OFF}, (struct hsv_t){HSV_OFF}, (struct hsv_t){HSV_OFF}, k7D, k7E, k7F, (struct hsv_t){HSV_OFF} } \
 }
 
+#define HSV_BASE 183, 180, 180
+#define HSV_ACCENT1 54, 255, 255
+#define HSV_ACCENT2 29, 255, 255
 
 
-const rgb_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_split_3x6_3_ex2_rgb(
+const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT_split_3x6_3_ex2_hsv(
+  //,-------------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------.
+      {HSV_ACCENT2}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},           {HSV_BASE}, {HSV_BASE},  {HSV_OFF},    {HSV_ACCENT2},  {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+-----------|  |-----------+------------+------------+-----------+-----------+-----------+-----------|
+      {HSV_BASE}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1},  {HSV_ACCENT1}, {HSV_BASE},   {HSV_OFF},    {HSV_OFF},  {HSV_BASE},  {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+-----------'  `-----------+------------+------------+-----------+-----------+-----------+-----------|
+      {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},  {HSV_BASE}, {HSV_BASE},                             {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+-----------.  ,-----------+------------+------------+-----------+-----------+-----------+-----------|
+                                                        {HSV_ACCENT2}, {HSV_BASE}, {HSV_ACCENT1},    {HSV_ACCENT1},  {HSV_BASE},   {HSV_ACCENT2}
+                                                   //`------------------------------------'  `-------------------------------------'
+  ),
+
+  [1] = LAYOUT_split_3x6_3_ex2_hsv(
   //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
-       {RGB_BLUE},    {RGB_BLUE},  {RGB_CORAL},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+       {HSV_TEAL},    {HSV_TEAL},  {HSV_TEAL},    {HSV_TEAL},          {HSV_TEAL},    {HSV_TEAL},        {HSV_TEAL},                 {HSV_TEAL},    {HSV_TEAL},          {HSV_TEAL},    {HSV_TEAL},  {HSV_TEAL},      {HSV_TEAL}, {HSV_TEAL},
   //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
-      {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
+      {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL},        {HSV_TEAL},    {HSV_TEAL},        {HSV_TEAL},                 {HSV_TEAL},    {HSV_TEAL},        {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL}, {HSV_TEAL}, {HSV_TEAL},
   //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
-       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
+       {HSV_TEAL},    {HSV_TEAL},    {HSV_TEAL},    {HSV_CORAL},          {HSV_TEAL},    {HSV_TEAL},                                             {HSV_TEAL},          {HSV_TEAL}, {HSV_TEAL},  {HSV_TEAL},   {HSV_TEAL},  {HSV_TEAL},
   //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
-                                          {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
+                                          {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL},     {HSV_TEAL},  {HSV_TEAL}, {HSV_TEAL}
                                       //`---------------------------------------'  `---------------------------------------------'
   ),
-  [1] = LAYOUT_split_3x6_3_ex2_rgb(
+
+  [2] = LAYOUT_split_3x6_3_ex2_hsv(
   //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
-       {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
+       {HSV_TEAL},    {HSV_CORAL},  {HSV_TEAL},    {HSV_TEAL},          {HSV_TEAL},    {HSV_TEAL},        {HSV_TEAL},                 {HSV_TEAL},    {HSV_TEAL},          {HSV_TEAL},    {HSV_TEAL},  {HSV_TEAL},      {HSV_TEAL}, {HSV_TEAL},
   //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
-      {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
+      {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL},        {HSV_TEAL},    {HSV_TEAL},        {HSV_TEAL},                 {HSV_TEAL},    {HSV_TEAL},        {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL}, {HSV_TEAL}, {HSV_TEAL},
   //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
-       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_CORAL},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
+       {HSV_TEAL},    {HSV_TEAL},    {HSV_TEAL},    {HSV_TEAL},          {HSV_TEAL},    {HSV_TEAL},                                             {HSV_TEAL},          {HSV_TEAL}, {HSV_TEAL},  {HSV_TEAL},   {HSV_TEAL},  {HSV_TEAL},
   //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
-                                          {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
+                                          {HSV_TEAL},  {HSV_TEAL},  {HSV_TEAL},     {HSV_TEAL},  {HSV_TEAL}, {HSV_TEAL}
                                       //`---------------------------------------'  `---------------------------------------------'
   ),
-  [2] = LAYOUT_split_3x6_3_ex2_rgb(
-  //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
-       {RGB_BLUE},    {RGB_CORAL},  {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},  {RGB_BLUE},      {RGB_BLUE}, {RGB_BLUE},
-  //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
-      {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},        {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},                 {RGB_BLUE},    {RGB_BLUE},        {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}, {RGB_BLUE},
-  //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
-       {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},    {RGB_BLUE},          {RGB_BLUE},    {RGB_BLUE},                                             {RGB_BLUE},          {RGB_BLUE}, {RGB_BLUE},  {RGB_BLUE},   {RGB_BLUE},  {RGB_BLUE},
-  //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
-                                          {RGB_BLUE},  {RGB_BLUE},  {RGB_BLUE},     {RGB_BLUE},  {RGB_BLUE}, {RGB_BLUE}
-                                      //`---------------------------------------'  `---------------------------------------------'
+
+  [3] = LAYOUT_split_3x6_3_ex2_hsv(
+  //,-------------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------.
+      {HSV_ACCENT2}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},           {HSV_BASE}, {HSV_BASE},  {HSV_OFF},    {HSV_ACCENT2},  {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+-----------|  |-----------+------------+------------+-----------+-----------+-----------+-----------|
+      {HSV_BASE}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1},  {HSV_ACCENT1}, {HSV_BASE},   {HSV_OFF},    {HSV_OFF},  {HSV_BASE},  {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+-----------'  `-----------+------------+------------+-----------+-----------+-----------+-----------|
+      {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},  {HSV_BASE}, {HSV_BASE},                             {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+-----------.  ,-----------+------------+------------+-----------+-----------+-----------+-----------|
+                                                        {HSV_ACCENT2}, {HSV_BASE}, {HSV_ACCENT1},    {HSV_ACCENT1},  {HSV_BASE},   {HSV_ACCENT2}
+                                                   //`------------------------------------'  `-------------------------------------'
   ),
 };
 
+void keyboard_post_init_user(void) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+}
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     uint8_t layer = get_highest_layer(layer_state);
@@ -234,9 +266,14 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
             uint8_t index = g_led_config.matrix_co[row][col];
-            rgb_t rgb = matrix_colors[layer][row][col];
-            rgb_matrix_set_color(index, rgb.r, rgb.g, rgb.b);
-
+            if (index != NO_LED) {
+                hsv_t hsv = matrix_colors[layer][row][col];
+                uint8_t g_v = (uint32_t)rgb_matrix_config.hsv.v * 100 / RGB_MATRIX_MAXIMUM_BRIGHTNESS;
+                hsv.h = hsv.h + rgb_matrix_config.hsv.h;
+                hsv.v = (uint32_t)hsv.v * g_v / 100; // todo умножить поделить а может отнять?? хм
+                rgb_t rgb = hsv_to_rgb(hsv);
+                rgb_matrix_set_color(index, rgb.r, rgb.g, rgb.b);
+            }
         }
     }
     return false;

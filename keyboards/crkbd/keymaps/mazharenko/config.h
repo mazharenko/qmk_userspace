@@ -7,7 +7,8 @@
 #define PERMISSIVE_HOLD
 #define FLOW_TAP_TERM 150
 #define MAX_DEFERRED_EXECUTORS 10
-
+#define RGB_MATRIX_VAL_STEP 4
+#define RGB_MATRIX_HUE_STEP 4
 
 
 /**/
