@@ -199,21 +199,21 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 }
 
 #define HSV_BASE 183, 180, 180
-#define HSV_ACCENT1 54, 255, 255
-#define HSV_ACCENT2 29, 255, 255
+#define HSV_ACC1 54, 255, 255
+#define HSV_ACC2 29, 255, 255
 
 
 const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_split_3x6_3_ex2_hsv(
-  //,-------------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------.
-      {HSV_ACCENT2}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},           {HSV_BASE}, {HSV_BASE},  {HSV_OFF},    {HSV_ACCENT2},  {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
-  //|-----------+-----------+------------+-----------+------------+-----------+-----------|  |-----------+------------+------------+-----------+-----------+-----------+-----------|
-      {HSV_BASE}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1},  {HSV_ACCENT1}, {HSV_BASE},   {HSV_OFF},    {HSV_OFF},  {HSV_BASE},  {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_BASE},
-  //|-----------+-----------+------------+-----------+------------+-----------+-----------'  `-----------+------------+------------+-----------+-----------+-----------+-----------|
+  //,------------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------.
+      {HSV_ACC2}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},  {HSV_BASE}, {HSV_BASE},  {HSV_OFF},    {HSV_ACC2},  {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+----------|  |-----------+------------+------------+-----------+-----------+-----------+-----------|
+      {HSV_BASE}, {HSV_ACC1}, {HSV_ACC1}, {HSV_ACC1},  {HSV_ACC1}, {HSV_BASE},  {HSV_OFF},     {HSV_OFF},  {HSV_BASE},  {HSV_ACC1}, {HSV_ACC1}, {HSV_ACC1}, {HSV_ACC1}, {HSV_BASE},
+  //|-----------+-----------+------------+-----------+------------+-----------+----------'  `-----------+------------+------------+-----------+-----------+-----------+-----------|
       {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},  {HSV_BASE}, {HSV_BASE},                             {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
-  //|-----------+-----------+------------+-----------+------------+-----------+-----------.  ,-----------+------------+------------+-----------+-----------+-----------+-----------|
-                                                        {HSV_ACCENT2}, {HSV_BASE}, {HSV_ACCENT1},    {HSV_ACCENT1},  {HSV_BASE},   {HSV_ACCENT2}
-                                                   //`------------------------------------'  `-------------------------------------'
+  //|-----------+-----------+------------+-----------+------------+-----------+----------.  ,-----------+------------+------------+-----------+-----------+-----------+-----------|
+                                                       {HSV_ACC2}, {HSV_BASE}, {HSV_ACC1},    {HSV_ACC1},  {HSV_BASE},  {HSV_ACC2}
+                                                   //`------------------------------------'  `------------------------------------'
   ),
 
   [1] = LAYOUT_split_3x6_3_ex2_hsv(
@@ -242,13 +242,13 @@ const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [3] = LAYOUT_split_3x6_3_ex2_hsv(
   //,-------------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------.
-      {HSV_ACCENT2}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},           {HSV_BASE}, {HSV_BASE},  {HSV_OFF},    {HSV_ACCENT2},  {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
+      {HSV_ACC2}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},           {HSV_BASE}, {HSV_BASE},  {HSV_OFF},    {HSV_ACC2},  {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
   //|-----------+-----------+------------+-----------+------------+-----------+-----------|  |-----------+------------+------------+-----------+-----------+-----------+-----------|
-      {HSV_BASE}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1},  {HSV_ACCENT1}, {HSV_BASE},   {HSV_OFF},    {HSV_OFF},  {HSV_BASE},  {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_ACCENT1}, {HSV_BASE},
+      {HSV_BASE}, {HSV_ACC1}, {HSV_ACC1}, {HSV_ACC1},  {HSV_ACC1}, {HSV_BASE},   {HSV_OFF},    {HSV_OFF},  {HSV_BASE},  {HSV_ACC1}, {HSV_ACC1}, {HSV_ACC1}, {HSV_ACC1}, {HSV_BASE},
   //|-----------+-----------+------------+-----------+------------+-----------+-----------'  `-----------+------------+------------+-----------+-----------+-----------+-----------|
       {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},  {HSV_BASE}, {HSV_BASE},                             {HSV_BASE},  {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE}, {HSV_BASE},
   //|-----------+-----------+------------+-----------+------------+-----------+-----------.  ,-----------+------------+------------+-----------+-----------+-----------+-----------|
-                                                        {HSV_ACCENT2}, {HSV_BASE}, {HSV_ACCENT1},    {HSV_ACCENT1},  {HSV_BASE},   {HSV_ACCENT2}
+                                                        {HSV_ACC2}, {HSV_BASE}, {HSV_ACC1},    {HSV_ACC1},  {HSV_BASE},   {HSV_ACC2}
                                                    //`------------------------------------'  `-------------------------------------'
   ),
 };
