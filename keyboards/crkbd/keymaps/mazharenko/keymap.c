@@ -1,17 +1,11 @@
-#include <stdint.h>
-#include "color.h"
-#include "keycode.h"
 #include "keycodes.h"
-#include "quantum_keycodes_legacy.h"
-#include "rgb_matrix_types.h"
-#include "rp2040.h"
 #include QMK_KEYBOARD_H
 
 enum uni_keycodes {
-    UNI_LBRC = RALT(S(KC_LBRC)), // [
-    UNI_RBRC = RALT(S(KC_RBRC)), // ]
-    UNI_LCUR = RALT(KC_LBRC), // {
-    UNI_RCUR = RALT(KC_RBRC), // }
+    UNI_LBRC = RALT(KC_LBRC), // [
+    UNI_RBRC = RALT(KC_RBRC), // ]
+    UNI_LCUR = RALT(S(KC_LBRC)), // {
+    UNI_RCUR = RALT(S(KC_RBRC)), // }
     UNI_EXLM = KC_1, // !
     UNI_PERCENT = KC_5, // %
     UNI_QUES = KC_7, // ?
@@ -52,11 +46,14 @@ enum hrm_keycodes {
 #define HOME_W RALT_T(KC_W)
 #define HOME_O RALT_T(KC_O)
 
-enum {
+enum td {
     TD_SLASHES,
     TD_SEMI_COLON,
-    HASHROCKET,
-    TD_QUOTES,
+    TD_QUOTES
+};
+
+enum {
+    HASHROCKET = SAFE_RANGE,
     RGB_VAD_NOEEPROM,
     RGB_VAI_NOEEPROM
 };
@@ -146,9 +143,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------------------------------------------.  ,--------------------------------------------------------------------------------------------------.
          XXXXXXX,  KC_P7, RALT_T(KC_P8),        KC_P9,         XXXXXXX,      KC_MINUS, XXXXXXX,    XXXXXXX,     TD(TD_SLASHES),         UNI_LCUR,   UNI_RCUR, RALT_T(UNI_EXLM), UNI_PERCENT, XXXXXXX,
   //|------------+------+--------------+-------------+----------------+--------------+--------|  |---------+------------------+-----------------+-----------+-----------------+------------+--------|
-      KC_KP_PLUS,  KC_P4,         KC_P5,        KC_P6, LSFT_T(XXXXXXX), TD(TD_QUOTES), XXXXXXX,    XXXXXXX,             UNI_AT, LSFT_T(UNI_LBRC),   UNI_RBRC,         UNI_QUES,    UNI_ASTR, XXXXXXX,
+      KC_KP_PLUS,  KC_P4,         KC_P5,        KC_P6, LSFT_T(XXXXXXX), TD(TD_QUOTES), XXXXXXX,    XXXXXXX,             UNI_AT,    LSFT_T(UNI_LBRC),   UNI_RBRC,         UNI_QUES,    UNI_ASTR, XXXXXXX,
   //|------------+------+--------------+-------------+----------------+--------------+--------'  `---------+------------------+-----------------+-----------+-----------------+------------+--------|
-      KC_KP_EQUAL, KC_P1,         KC_P2,        KC_P3,           KC_P0,       XXXXXXX,                       TD(TD_SEMI_COLON),       UNI_LPAREN, UNI_RPAREN,       HASHROCKET,    UNI_HASH, XXXXXXX,
+      KC_EQUAL, KC_P1,         KC_P2,        KC_P3,           KC_P0,       XXXXXXX,                       TD(TD_SEMI_COLON),       UNI_LPAREN, UNI_RPAREN,       HASHROCKET,    UNI_HASH, XXXXXXX,
   //|------------+------+--------------+-------------+----------------+--------------+--------.  ,---------+------------------+-----------------+-----------+-----------------+------------+--------|
                                                          LT(3, KC_TAB),       _______, _______,     _______,           _______,    LT(3, KC_DEL)
                                                    //`----------------------------------------'  `----------------------------------------------'
@@ -270,7 +267,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 hsv_t hsv = matrix_colors[layer][row][col];
                 uint8_t g_v = (uint32_t)rgb_matrix_config.hsv.v * 100 / RGB_MATRIX_MAXIMUM_BRIGHTNESS;
                 hsv.h = hsv.h + rgb_matrix_config.hsv.h;
-                hsv.v = (uint32_t)hsv.v * g_v / 100; // todo умножить поделить а может отнять?? хм
+                hsv.v = (uint32_t)hsv.v * g_v / 100;
                 rgb_t rgb = hsv_to_rgb(hsv);
                 rgb_matrix_set_color(index, rgb.r, rgb.g, rgb.b);
             }
