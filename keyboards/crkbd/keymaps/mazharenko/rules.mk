@@ -1,4 +1,3 @@
-VIA_ENABLE         = yes
-VIAL_ENABLE        = yes
-VIALRGB_ENABLE     = false
 ENCODER_MAP_ENABLE = yes
+TAP_DANCE_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes

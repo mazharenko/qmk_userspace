@@ -1,7 +1,9 @@
 {
     "files.exclude": {
         ".git/": true,
-        "vial-qmk/": true,
-        "kbd_firmware/": true
-    }
+        "qmk_firmware": true,
+        "kbd_firmware/": true,
+        "sm_td/": true
+    },
+    "clangd.onConfigChanged": "restart"
 }
