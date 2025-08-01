@@ -11,8 +11,8 @@ enum uni_keycodes {
     UNI_PERCENT = KC_5, // %
     UNI_QUES = KC_7, // ?
     UNI_ASTR = KC_8, // *
-    UNI_COLON = KC_4, // ;
-    UNI_SEMICOLON = KC_6, // :,
+    UNI_SEMICOLON = KC_4, // ;
+    UNI_COLON = KC_6, // :,
     UNI_LPAREN = KC_9, // (
     UNI_RPAREN = KC_0, // )
     UNI_HASH = KC_3, // #
