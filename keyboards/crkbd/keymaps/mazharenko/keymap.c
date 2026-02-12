@@ -23,32 +23,30 @@ enum uni_keycodes {
 
 enum hrm_keycodes {
     SMTD_KEYCODES_BEGIN = SAFE_RANGE,
-    HOME_A,
-    HOME_S,
-    HOME_D,
-    HOME_F,
-    HOME_J,
-    HOME_K,
-    HOME_L,
-    HOME_SCLN,
-    HOME_W,
-    HOME_O,
+  //  HOME_A,
+  //  HOME_S,
+  //  HOME_D,
+  //  HOME_F,
+  //  HOME_J,
+  //  HOME_K,
+  //  HOME_L,
+  //  HOME_SCLN,
     SMTD_KEYCODES_END,
 };
 
 #include "sm_td.h"
 
 // home row mods
-//#define HOME_A LCTL_T(KC_A)
-//#define HOME_S LALT_T(KC_S)
-//#define HOME_D LGUI_T(KC_D)
-//#define HOME_F LSFT_T(KC_F)
-//#define HOME_J LSFT_T(KC_J)
-//#define HOME_K LGUI_T(KC_K)
-//#define HOME_L LALT_T(KC_L)
-//#define HOME_SCLN LCTL_T(KC_SCLN)
-//#define HOME_W RALT_T(KC_W)
-//#define HOME_O RALT_T(KC_O)
+#define HOME_A LCTL_T(KC_A)
+#define HOME_S LALT_T(KC_S)
+#define HOME_D LGUI_T(KC_D)
+#define HOME_F LSFT_T(KC_F)
+#define HOME_J LSFT_T(KC_J)
+#define HOME_K LGUI_T(KC_K)
+#define HOME_L LALT_T(KC_L)
+#define HOME_SCLN LCTL_T(KC_SCLN)
+#define HOME_W RALT_T(KC_W)
+#define HOME_O RALT_T(KC_O)
 
 enum td {
     TD_SLASHES,
@@ -105,16 +103,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
-        SMTD_MT(HOME_A, KC_A, KC_LEFT_CTRL)
-        SMTD_MT(HOME_S, KC_S, KC_LEFT_ALT)
-        SMTD_MT(HOME_D, KC_D, KC_LEFT_GUI)
-        SMTD_MT(HOME_F, KC_F, KC_LSFT)
-        SMTD_MT(HOME_J, KC_J, KC_LSFT)
-        SMTD_MT(HOME_K, KC_K, KC_LEFT_GUI)
-        SMTD_MT(HOME_L, KC_L, KC_LEFT_ALT)
-        SMTD_MT(HOME_SCLN, KC_SCLN, KC_LEFT_CTRL)
-        SMTD_MT(HOME_W, KC_W, KC_RIGHT_ALT)
-        SMTD_MT(HOME_O, KC_O, KC_RIGHT_ALT)
+      //  SMTD_MT(HOME_A, KC_A, KC_LEFT_CTRL)
+      //  SMTD_MT(HOME_S, KC_S, KC_LEFT_ALT)
+      //  SMTD_MT(HOME_D, KC_D, KC_LEFT_GUI)
+      //  SMTD_MT(HOME_F, KC_F, KC_LSFT)
+      //  SMTD_MT(HOME_J, KC_J, KC_LSFT)
+      //  SMTD_MT(HOME_K, KC_K, KC_LEFT_GUI)
+      //  SMTD_MT(HOME_L, KC_L, KC_LEFT_ALT)
+      //  SMTD_MT(HOME_SCLN, KC_SCLN, KC_LEFT_CTRL)
     }
 }
 
