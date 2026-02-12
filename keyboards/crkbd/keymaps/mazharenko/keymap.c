@@ -146,15 +146,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [2] = LAYOUT_split_3x6_3_ex2(
-  //,-----------------------------------------------------------------.  ,-------------------------------------------------------------------------------.
-      XXXXXXX,  KC_F7,  KC_F8,  KC_F9, KC_F10,  XXXXXXX,       XXXXXXX,          XXXXXXX,  XXXXXXX, KC_HOME,   KC_PAGE_UP,   XXXXXXX,   XXXXXXX,  XXXXXXX,
-  //|--------+-------+-------+-------+-------+---------+--------------|  |--------------+---------+--------+-------------+----------+----------+---------|
-      XXXXXXX,  KC_F4,  KC_F5,  KC_F6, KC_F11,  XXXXXXX,       XXXXXXX,          XXXXXXX,  KC_LEFT, KC_DOWN,        KC_UP,  KC_RIGHT, KC_INSERT,  XXXXXXX,
-  //|--------+-------+-------+-------+-------+---------+--------------'  `--------------+---------+--------+-------------+----------+----------+---------|
-      XXXXXXX,  KC_F1,  KC_F2,  KC_F3, KC_F12,  XXXXXXX,                                   XXXXXXX,  KC_END, KC_PAGE_DOWN,   XXXXXXX,   XXXXXXX,  XXXXXXX,
-  //|--------+-------+-------+-------+-------+---------+--------------.  ,--------------+---------+--------+-------------+----------+----------+---------|
-                                      _______,  _______, LT(3, KC_ENT),    LT(3, KC_ENT),  _______, _______
-                                   //`--------------------------------'  `---------------------------------'
+  //,-----------------------------------------------------------------.  ,------------------------------------------------------------------------------------------------.
+      XXXXXXX,  KC_F7,  KC_F8,  KC_F9, KC_F10,  XXXXXXX,       XXXXXXX,                KC_MUTE, KC_MEDIA_NEXT_TRACK, KC_HOME,   KC_PAGE_UP,   XXXXXXX,   XXXXXXX,  XXXXXXX,
+  //|--------+-------+-------+-------+-------+---------+--------------|  |--------------------+--------------------+--------+-------------+----------+----------+---------|
+      XXXXXXX,  KC_F4,  KC_F5,  KC_F6, KC_F11,  XXXXXXX,       XXXXXXX,    KC_MEDIA_PLAY_PAUSE,             KC_LEFT, KC_DOWN,        KC_UP,  KC_RIGHT, KC_INSERT,  XXXXXXX,
+  //|--------+-------+-------+-------+-------+---------+--------------'  `--------------------+--------------------+--------+-------------+----------+----------+---------|
+      XXXXXXX,  KC_F1,  KC_F2,  KC_F3, KC_F12,  XXXXXXX,                                        KC_MEDIA_PREV_TRACK,  KC_END, KC_PAGE_DOWN,   XXXXXXX,   XXXXXXX,  XXXXXXX,
+  //|--------+-------+-------+-------+-------+---------+--------------.  ,--------------------+--------------------+--------+-------------+----------+----------+---------|
+                                      _______,  _______, LT(3, KC_ENT),          LT(3, KC_ENT),             _______, _______
+                                   //`--------------------------------'  `--------------------------------------------------'
   ),
 
 
@@ -175,8 +175,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
   [0] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
-  [1] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
-  [2] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_NONE, },
+  [1] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_BRID, KC_BRIU), ENCODER_NONE, },
+  [2] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_NONE, },
   [3] = { ENCODER_NONE, ENCODER_NONE, ENCODER_CCW_CW(RGB_VAD_NOEEPROM, RGB_VAI_NOEEPROM), ENCODER_NONE, },
 };
 
@@ -214,11 +214,11 @@ const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [2] = LAYOUT_split_3x6_3_ex2_hsv(
   //,------------------------------------------------------------------------------.  ,----------------------------------------------------------------------------------------.
-        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF}, {HSV_OFF},     HSV_ACC1,    {HSV_OFF}, HSV_BASE(32), HSV_BASE(36), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
+        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF}, {HSV_OFF},     HSV_ACC1,     HSV_ACC1, HSV_BASE(32), HSV_BASE(36), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
   //|------------+---------+---------+---------+----------+-------------+----------|  |----------+-------------+-------------+-------------+----------+-------------+----------|
-        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF}, {HSV_OFF},    {HSV_OFF},     HSV_ACC2,     HSV_ACC2,     HSV_ACC2,  HSV_ACC2, HSV_BASE(52), {HSV_OFF},
+        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF}, {HSV_OFF},     HSV_ACC1,     HSV_ACC2,     HSV_ACC2,     HSV_ACC2,  HSV_ACC2, HSV_BASE(52), {HSV_OFF},
   //|------------+---------+---------+---------+----------+-------------+----------'  `----------+-------------+-------------+-------------+----------+-------------+----------|
-        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF},                             {HSV_OFF}, HSV_BASE(44), HSV_BASE(48), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
+        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF},                              HSV_ACC1, HSV_BASE(44), HSV_BASE(48), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
   //|------------+---------+---------+---------+----------+-------------+----------.  ,----------+-------------+-------------+-------------+----------+-------------+----------|
                                                   HSV_ACC2, HSV_BASE(28),  HSV_ACC1,     HSV_ACC1, HSV_BASE(44),     HSV_ACC2
                                              //`-----------------------------------'  `--------------------------------------'
