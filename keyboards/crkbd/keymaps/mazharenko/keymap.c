@@ -48,6 +48,8 @@ enum hrm_keycodes {
 #define HOME_W RALT_T(KC_W)
 #define HOME_O RALT_T(KC_O)
 
+#define OS_LCAS OSM(MOD_LCTL | MOD_LALT | MOD_LSFT)
+
 enum td {
     TD_SLASHES,
     TD_SEMI_COLON,
@@ -84,6 +86,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     switch (keycode) {
+        case KC_ESC:
+            if (get_oneshot_mods()){
+                clear_oneshot_mods();
+                return false;
+            }
+            break;
+        // prevent one shot keys from working as normal mods
+    //    case OS_LCTL:
+    //        add_oneshot_mods(MOD_BIT(KC_LCTL));
+    //        return false;
+    //    case OS_LALT:
+    //        add_oneshot_mods(MOD_BIT(KC_LALT));
+    //        return false;
+    //    case OS_LGUI:
+    //        add_oneshot_mods(MOD_BIT(KC_LGUI));
+    //        return false;
+    //    case OS_LSFT:
+    //        add_oneshot_mods(MOD_BIT(KC_LSFT));
+    //        return false;
         case HASHROCKET:
             if (record->event.pressed) {
                 SEND_STRING("=>");
@@ -119,11 +140,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------------------------------.  ,-----------------------------------------------------------------------------------.
        KC_ESC,    KC_Q,  HOME_W,    KC_E,          KC_R,    KC_T,        XXXXXXX,                 KC_MUTE,    KC_Y,          KC_U,    KC_I,  HOME_O,      KC_P, KC_LBRC,
   //|--------+--------+--------+--------+--------------+--------+---------------|  |---------------------+--------+--------------+--------+--------+----------+--------|
-      KC_RBRC,  HOME_A,  HOME_S,  HOME_D,        HOME_F,    KC_G,        XXXXXXX,                 XXXXXXX,    KC_H,        HOME_J,  HOME_K,  HOME_L, HOME_SCLN, KC_QUOT,
+      KC_RBRC,    KC_A,    KC_S,    KC_D,          KC_F,    KC_G,        XXXXXXX,                 XXXXXXX,    KC_H,          KC_J,  HOME_K,  HOME_L, HOME_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------------+--------+---------------'  `---------------------+--------+--------------+--------+--------+----------+--------|
        KC_F13,    KC_Z,    KC_X,    KC_C,          KC_V,    KC_B,                                             KC_N,          KC_M, KC_COMM,  KC_DOT,   KC_SLSH,  KC_F14,
   //|--------+--------+--------+--------+--------------+--------+---------------.  ,---------------------+--------+--------------+--------+--------+----------+--------|
-                                          LT(2, KC_TAB),  KC_SPC,  LT(1, KC_ENT),     LT(1, KC_BACKSPACE),  KC_SPC, LT(2, KC_DEL)
+                                          LT(2, KC_TAB),  KC_SPC,  LT(1, KC_ENT),     LT(1, KC_BACKSPACE), KC_LSFT, LT(2, KC_DEL)
                                       //`---------------------------------------'  `---------------------------------------------'
 
   ),
@@ -133,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------------------------.
         KC_MINUS, XXXXXXX,   RALT_T(XXXXXXX),   UNI_LCUR,          UNI_RCUR,      UNI_SLASH, XXXXXXX,    XXXXXXX,    KC_P1,         KC_P2,  KC_P3, RALT_T(UNI_EXLM), UNI_PERCENT, XXXXXXX,
   //|-----------+--------+------------------+-------------+----------------+---------------+--------|  |--------+---------+--------------+-------+-----------------+------------+--------|
-      KC_KP_PLUS,  UNI_AT, TD(TD_SEMI_COLON),   UNI_LBRC,  LSFT_T(UNI_RBRC),  TD(TD_QUOTES), XXXXXXX,      KC_P0,    KC_P4, LSFT_T(KC_P5),  KC_P6,         UNI_QUES,    UNI_ASTR, XXXXXXX,
+      KC_KP_PLUS,  UNI_AT, TD(TD_SEMI_COLON),   UNI_LBRC,          UNI_RBRC,  TD(TD_QUOTES), XXXXXXX,      KC_P0,    KC_P4, KC_P5,  KC_P6,                 UNI_QUES,    UNI_ASTR, XXXXXXX,
   //|-----------+--------+------------------+-------------+----------------+---------------+--------'  `--------+---------+--------------+-------+-----------------+------------+--------|
         KC_EQUAL, XXXXXXX,           XXXXXXX, UNI_LPAREN,        UNI_RPAREN, TD(TD_SLASHES),                         KC_P7,         KC_P8,  KC_P9,       HASHROCKET,    UNI_HASH, XXXXXXX,
   //|-----------+--------+------------------+-------------+----------------+---------------+--------.  ,--------+---------+--------------+-------+-----------------+------------+--------|
@@ -142,15 +163,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [2] = LAYOUT_split_3x6_3_ex2(
-  //,-----------------------------------------------------------------.  ,------------------------------------------------------------------------------------------------.
-      XXXXXXX,  KC_F7,  KC_F8,  KC_F9, KC_F10,  XXXXXXX,       XXXXXXX,                KC_MUTE, KC_MEDIA_NEXT_TRACK, KC_HOME,   KC_PAGE_UP,   XXXXXXX,   XXXXXXX,  XXXXXXX,
-  //|--------+-------+-------+-------+-------+---------+--------------|  |--------------------+--------------------+--------+-------------+----------+----------+---------|
-      XXXXXXX,  KC_F4,  KC_F5,  KC_F6, KC_F11,  XXXXXXX,       XXXXXXX,    KC_MEDIA_PLAY_PAUSE,             KC_LEFT, KC_DOWN,        KC_UP,  KC_RIGHT, KC_INSERT,  XXXXXXX,
-  //|--------+-------+-------+-------+-------+---------+--------------'  `--------------------+--------------------+--------+-------------+----------+----------+---------|
-      XXXXXXX,  KC_F1,  KC_F2,  KC_F3, KC_F12,  XXXXXXX,                                        KC_MEDIA_PREV_TRACK,  KC_END, KC_PAGE_DOWN,   XXXXXXX,   XXXXXXX,  XXXXXXX,
-  //|--------+-------+-------+-------+-------+---------+--------------.  ,--------------------+--------------------+--------+-------------+----------+----------+---------|
-                                      _______,  _______, LT(3, KC_ENT),          LT(3, KC_ENT),             _______, _______
-                                   //`--------------------------------'  `--------------------------------------------------'
+  //,----------------------------------------------------------------------.  ,------------------------------------------------------------------------------------------------.
+        KC_F1,   KC_F2,   KC_F3,    KC_F4,   KC_F5,    KC_F6,       XXXXXXX,                KC_MUTE, KC_MEDIA_NEXT_TRACK, KC_HOME,   KC_PAGE_UP,   XXXXXXX,   XXXXXXX,  XXXXXXX,
+  //|--------+--------+--------+---------+--------+---------+--------------|  |--------------------+--------------------+--------+-------------+----------+----------+---------|
+       OS_LCS, OS_LCTL, OS_LALT,  OS_LGUI, OS_LSFT,  OS_LCAS,       XXXXXXX,    KC_MEDIA_PLAY_PAUSE,             KC_LEFT, KC_DOWN,        KC_UP,  KC_RIGHT, KC_INSERT,  XXXXXXX,
+  //|--------+--------+--------+---------+--------+---------+--------------'  `--------------------+--------------------+--------+-------------+----------+----------+---------|
+        KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                                         KC_MEDIA_PREV_TRACK,  KC_END, KC_PAGE_DOWN,   XXXXXXX,   XXXXXXX,  XXXXXXX,
+  //|--------+--------+--------+---------+--------+---------+--------------.  ,--------------------+--------------------+--------+-------------+----------+----------+---------|
+                                           _______,  _______, LT(3, KC_ENT),          LT(3, KC_ENT),             _______, _______
+                                       //`---------------------------------'  `--------------------------------------------------'
   ),
 
 
@@ -188,7 +209,7 @@ const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------------------------------------------------.  ,------------------------------------------------------------------------------------------------.
          HSV_ACC2,  HSV_BASE(4),  HSV_BASE(8), HSV_BASE(12),  HSV_BASE(16), HSV_BASE(20),  {HSV_OFF},      HSV_ACC2,  HSV_BASE(32), HSV_BASE(36), HSV_BASE(40), HSV_BASE(44), HSV_BASE(48), HSV_BASE(52),
   //|------------+-------------+-------------+-------------+--------------+-------------+-----------|  |-----------+--------------+-------------+-------------+-------------+-------------+-------------|
-      HSV_BASE(4),     HSV_ACC1,     HSV_ACC1,     HSV_ACC1,      HSV_ACC1, HSV_BASE(24),  {HSV_OFF},     {HSV_OFF},  HSV_BASE(32),     HSV_ACC1,     HSV_ACC1,     HSV_ACC1,     HSV_ACC1, HSV_BASE(56),
+      HSV_BASE(4),  HSV_BASE(8), HSV_BASE(12), HSV_BASE(16),  HSV_BASE(20), HSV_BASE(24),  {HSV_OFF},     {HSV_OFF},  HSV_BASE(32), HSV_BASE(40), HSV_BASE(44), HSV_BASE(48), HSV_BASE(52), HSV_BASE(56),
   //|------------+-------------+-------------+-------------+--------------+-------------+-----------'  `-----------+--------------+-------------+-------------+-------------+-------------+-------------|
       HSV_BASE(8), HSV_BASE(12), HSV_BASE(16), HSV_BASE(20),  HSV_BASE(24), HSV_BASE(28),                             HSV_BASE(40), HSV_BASE(44), HSV_BASE(48), HSV_BASE(52), HSV_BASE(56), HSV_BASE(60),
   //|------------+-------------+-------------+-------------+--------------+-------------+-----------.  ,-----------+--------------+-------------+-------------+-------------+-------------+-------------|
@@ -209,15 +230,15 @@ const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
     [2] = LAYOUT_split_3x6_3_ex2_hsv(
-  //,------------------------------------------------------------------------------.  ,----------------------------------------------------------------------------------------.
-        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF}, {HSV_OFF},     HSV_ACC1,     HSV_ACC1, HSV_BASE(32), HSV_BASE(36), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
-  //|------------+---------+---------+---------+----------+-------------+----------|  |----------+-------------+-------------+-------------+----------+-------------+----------|
-        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF}, {HSV_OFF},     HSV_ACC1,     HSV_ACC2,     HSV_ACC2,     HSV_ACC2,  HSV_ACC2, HSV_BASE(52), {HSV_OFF},
-  //|------------+---------+---------+---------+----------+-------------+----------'  `----------+-------------+-------------+-------------+----------+-------------+----------|
-        {HSV_OFF}, HSV_ACC2, HSV_ACC2, HSV_ACC2,  HSV_ACC2,    {HSV_OFF},                              HSV_ACC1, HSV_BASE(44), HSV_BASE(48), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
-  //|------------+---------+---------+---------+----------+-------------+----------.  ,----------+-------------+-------------+-------------+----------+-------------+----------|
-                                                  HSV_ACC2, HSV_BASE(28),  HSV_ACC1,     HSV_ACC1, HSV_BASE(44),     HSV_ACC2
-                                             //`-----------------------------------'  `--------------------------------------'
+  //,----------------------------------------------------------------------------------------------.  ,----------------------------------------------------------------------------------------.
+      HSV_BASE(0),  HSV_BASE(4),  HSV_BASE(8), HSV_BASE(12),  HSV_BASE(16), HSV_BASE(20), {HSV_OFF},     HSV_ACC1,     HSV_ACC1, HSV_BASE(32), HSV_BASE(36), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
+  //|------------+-------------+-------------+-------------+--------------+-------------+----------|  |----------+-------------+-------------+-------------+----------+-------------+----------|
+         HSV_ACC1,     HSV_ACC2,     HSV_ACC2,     HSV_ACC2,      HSV_ACC2,     HSV_ACC1, {HSV_OFF},     HSV_ACC1,     HSV_ACC2,     HSV_ACC2,     HSV_ACC2,  HSV_ACC2, HSV_BASE(52), {HSV_OFF},
+  //|------------+-------------+-------------+-------------+--------------+-------------+----------'  `----------+-------------+-------------+-------------+----------+-------------+----------|
+      HSV_BASE(8), HSV_BASE(12), HSV_BASE(16), HSV_BASE(20),  HSV_BASE(24), HSV_BASE(28),                              HSV_ACC1, HSV_BASE(44), HSV_BASE(48), {HSV_OFF},    {HSV_OFF}, {HSV_OFF},
+  //|------------+-------------+-------------+-------------+--------------+-------------+----------.  ,----------+-------------+-------------+-------------+----------+-------------+----------|
+                                                                  HSV_ACC2, HSV_BASE(28),  HSV_ACC1,     HSV_ACC1, HSV_BASE(44),     HSV_ACC2
+                                                          //`--------------------------------------'  `--------------------------------------'
   ),
 
     [3] = LAYOUT_split_3x6_3_ex2_hsv(
@@ -233,18 +254,39 @@ const hsv_t PROGMEM matrix_colors[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
+
+const uint8_t PROGMEM matrix_mods_colors[MATRIX_ROWS][MATRIX_COLS] =
+    LAYOUT_split_3x6_3_ex2_hsv_mods(
+  //,------------------------------------------------------------------------------.  ,-------------------------------------------------------------------------------------.
+               0,             0,            0,            0,              0,  0,  0,             0,           0,           0,          0,          0,          0,          0,
+  //|-----------+--------------+-------------+-------------+---------------+---+---|  |-----------+------------+------------+-----------+-----------+-----------+-----------|
+               0, MOD_MASK_CTRL, MOD_MASK_ALT, MOD_MASK_GUI, MOD_MASK_SHIFT,  0,  0,             0,           0,           0,          0,          0,          0,          0,
+  //|-----------+--------------+-------------+-------------+---------------+---+---'  `-----------+------------+------------+-----------+-----------+-----------+-----------|
+               0,             0,            0,            0,              0,  0,                              0,           0,          0,          0,          0,          0,
+  //|-----------+--------------+-------------+-------------+---------------+---+---.  ,-----------+------------+------------+-----------+-----------+-----------+-----------|
+                                                                          0,  0,  0,             0,           0,           0
+                                                         //`-----------------------'  `-------------------------------------'
+  );
+
 void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
 }
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     uint8_t layer = get_highest_layer(layer_state);
+    uint8_t oneshot_mods = get_oneshot_mods();
 
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
             uint8_t index = g_led_config.matrix_co[row][col];
             if (index != NO_LED) {
                 hsv_t hsv = matrix_colors[layer][row][col];
+
+                uint8_t mod = matrix_mods_colors[row][col];
+                if (oneshot_mods & mod) {
+                    hsv = (hsv_t){HSV_RED};
+                }
+
                 uint8_t g_v = (uint32_t)rgb_matrix_config.hsv.v * 100 / RGB_MATRIX_MAXIMUM_BRIGHTNESS;
                 hsv.h = hsv.h + rgb_matrix_config.hsv.h;
                 hsv.v = (uint32_t)hsv.v * g_v / 100;
