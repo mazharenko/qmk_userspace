@@ -4,6 +4,3 @@
 [submodule "qmk_firmware"]
 	path = qmk_firmware
 	url = https://github.com/qmk/qmk_firmware.git
-[submodule "sm_td"]
-	path = sm_td
-	url = https://github.com/stasmarkin/sm_td.git
