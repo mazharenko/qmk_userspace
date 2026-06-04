@@ -1,6 +1,7 @@
 #pragma once
 
 #define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
 #define PERMISSIVE_HOLD
 #define FLOW_TAP_TERM 150
 #define MAX_DEFERRED_EXECUTORS 10
