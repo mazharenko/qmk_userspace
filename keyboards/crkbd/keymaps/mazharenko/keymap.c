@@ -64,7 +64,7 @@ void dance_quotes(tap_dance_state_t *state, void *user_data) {
     } else if (state->count == 2) {
         tap_code16(KC_QUOTE);
     } else if (state->count == 3) {
-        tap_code16(RALT(KC_GRAVE));
+        tap_code16(KC_GRAVE);
     } else {
         reset_tap_dance (state);
     }
